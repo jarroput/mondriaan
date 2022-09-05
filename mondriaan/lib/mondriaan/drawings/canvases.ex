@@ -14,7 +14,13 @@ defmodule Mondriaan.Drawings.Canvases do
   end
 
   def get(id) do
-    Repo.get(Canvas, id)
+    case Repo.get(Canvas, id) do
+      %Canvas{} = canvas ->
+        {:ok, canvas}
+
+      _ ->
+        {:error, :not_found}
+    end
   end
 
   @doc ~S"""

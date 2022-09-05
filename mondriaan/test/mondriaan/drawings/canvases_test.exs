@@ -43,8 +43,7 @@ defmodule Mondriaan.Drawings.CanvasesTest do
 
   describe "get/1" do
     test "returns nil for unknown id" do
-      result = Canvases.get(Ecto.UUID.generate())
-      assert is_nil(result)
+      assert {:error, :not_found} == Canvases.get(Ecto.UUID.generate())
     end
 
     test "returns canvas by uuid" do
@@ -53,7 +52,7 @@ defmodule Mondriaan.Drawings.CanvasesTest do
 
       {:ok, %{id: id}} = Canvases.create(new_canvas)
 
-      canvas = Canvases.get(id)
+      {:ok, canvas} = Canvases.get(id)
 
       refute is_nil(canvas)
       assert length(canvas.shapes) == 1
